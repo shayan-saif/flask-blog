@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container col-lg-6 col-12 bg-light p-3 rounded shadow text-center">
+        <h1>Server Error<br>(500)</h1>
+        <img class="caution-img" src="{{url_for('static', filename='images/caution.png') }}">
+        <p class="fs-5">There are problems with the server at this time, please try again later.</p>
+    </div>
+{% endblock content %}

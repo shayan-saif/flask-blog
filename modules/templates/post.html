@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="card mb-3 mx-auto col-lg-6 col-12 shadow">
+    <div class="card-body">
+        <div class="row row-cols-2">
+            <div class="col-9">
+                <h5 class="card-title fs-5">{{ post.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted fs-6">By: <a
+                        href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
+                </h6>
+                <p class="card-text">{{ post.content }}</p>
+            </div>
+            <div class="col-3 text-end">
+                <img class="rounded-circle border border-dark shadow"
+                    src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"
+                    style="width:60px;height:60px" alt="{{ post.author.username }}">
+            </div>
+            <div class="col-4 align-self-end">
+                <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+            <div class="col-8">
+                {% if post.author == current_user %}
+                <br>
+                <div class="d-inline-block float-end">
+                    <a class="btn btn-sm btn-secondary" href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
+                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_confirm">Delete
+                        Post</button>
+                </div>
+                <div class="modal fade" id="delete_confirm" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="delete_confirm">Confirm deletion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete your post? There is no way to recover a deleted post.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
+                                    <input type="submit" class="btn btn-danger" value="I'm sure">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
